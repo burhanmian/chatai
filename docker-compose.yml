@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://dostai:dostai@db:5432/dostai
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./app:/app/app
+      - audio_cache:/app/audio_cache
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=dostai
+      - POSTGRES_PASSWORD=dostai
+      - POSTGRES_DB=dostai
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  celery_worker:
+    build: .
+    command: celery -A app.celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://dostai:dostai@db:5432/dostai
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - ./app:/app/app
+
+volumes:
+  postgres_data:
+  redis_data:
+  audio_cache:
