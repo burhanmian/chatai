@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     # JazzCash
     jazzcash_merchant_id: Optional[str] = None
     jazzcash_password: Optional[str] = None
-    jazzcash_integerity_salt: Optional[str] = None
+    jazzcash_integrity_salt: Optional[str] = None
     jazzcash_return_url: Optional[str] = None
     
     # Easypaisa

@@ -58,7 +58,7 @@ if settings.jazzcash_merchant_id:
     jazzcash_client = JazzCashClient(
         settings.jazzcash_merchant_id,
         settings.jazzcash_password,
-        settings.jazzcash_integerity_salt,
+        settings.jazzcash_integrity_salt,
         settings.jazzcash_return_url
     )
 

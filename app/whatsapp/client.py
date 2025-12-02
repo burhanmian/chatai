@@ -12,6 +12,20 @@ class WhatsAppClient:
         self.client = Client(account_sid, auth_token)
         self.whatsapp_number = whatsapp_number
     
+    def _format_phone_number(self, phone_number: str) -> str:
+        """
+        Format phone number with whatsapp: prefix if needed
+        
+        Args:
+            phone_number: Phone number to format
+            
+        Returns:
+            Formatted phone number with whatsapp: prefix
+        """
+        if not phone_number.startswith("whatsapp:"):
+            return f"whatsapp:{phone_number}"
+        return phone_number
+    
     async def send_text_message(self, to: str, body: str) -> dict:
         """
         Send text message via WhatsApp
@@ -24,8 +38,7 @@ class WhatsAppClient:
             Message details
         """
         try:
-            if not to.startswith("whatsapp:"):
-                to = f"whatsapp:{to}"
+            to = self._format_phone_number(to)
             
             message = self.client.messages.create(
                 from_=self.whatsapp_number,
@@ -55,8 +68,7 @@ class WhatsAppClient:
             Message details
         """
         try:
-            if not to.startswith("whatsapp:"):
-                to = f"whatsapp:{to}"
+            to = self._format_phone_number(to)
             
             message = self.client.messages.create(
                 from_=self.whatsapp_number,
@@ -87,8 +99,7 @@ class WhatsAppClient:
             Message details
         """
         try:
-            if not to.startswith("whatsapp:"):
-                to = f"whatsapp:{to}"
+            to = self._format_phone_number(to)
             
             message = self.client.messages.create(
                 from_=self.whatsapp_number,

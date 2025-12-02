@@ -9,6 +9,13 @@ logger = logging.getLogger(__name__)
 class AgentOrchestrator:
     """Main orchestrator with GPT-4o for routing to specialized agents"""
     
+    # Routing keywords for different agents
+    EMAIL_KEYWORDS = ['email', 'mail', 'inbox', 'send']
+    CALENDAR_KEYWORDS = ['calendar', 'schedule', 'appointment', 'meeting']
+    REMINDER_KEYWORDS = ['remind', 'reminder', 'yaad', 'alert']
+    PAYMENT_KEYWORDS = ['pay', 'payment', 'jazzcash', 'easypaisa', 'paisay']
+    LOCAL_SERVICE_KEYWORDS = ['k-electric', 'bill', 'careem', 'foodpanda', 'daraz']
+    
     def __init__(self, api_key: str):
         self.llm = ChatOpenAI(
             model="gpt-4o",
@@ -95,7 +102,7 @@ For general conversations, respond directly without routing.
         message_lower = user_message.lower()
         
         # Email-related keywords
-        if any(word in message_lower for word in ['email', 'mail', 'inbox', 'send']):
+        if any(word in message_lower for word in self.EMAIL_KEYWORDS):
             return {
                 "agent": "email_agent",
                 "params": {"action": "check_inbox"},
@@ -103,7 +110,7 @@ For general conversations, respond directly without routing.
             }
         
         # Calendar-related keywords
-        if any(word in message_lower for word in ['calendar', 'schedule', 'appointment', 'meeting']):
+        if any(word in message_lower for word in self.CALENDAR_KEYWORDS):
             return {
                 "agent": "calendar_agent",
                 "params": {"action": "check_events"},
@@ -111,7 +118,7 @@ For general conversations, respond directly without routing.
             }
         
         # Reminder-related keywords
-        if any(word in message_lower for word in ['remind', 'reminder', 'yaad', 'alert']):
+        if any(word in message_lower for word in self.REMINDER_KEYWORDS):
             return {
                 "agent": "reminder_agent",
                 "params": {"action": "set_reminder"},
@@ -119,7 +126,7 @@ For general conversations, respond directly without routing.
             }
         
         # Payment-related keywords
-        if any(word in message_lower for word in ['pay', 'payment', 'jazzcash', 'easypaisa', 'paisay']):
+        if any(word in message_lower for word in self.PAYMENT_KEYWORDS):
             return {
                 "agent": "payment_agent",
                 "params": {"action": "process_payment"},
@@ -127,7 +134,7 @@ For general conversations, respond directly without routing.
             }
         
         # Local services keywords
-        if any(word in message_lower for word in ['k-electric', 'bill', 'careem', 'foodpanda', 'daraz']):
+        if any(word in message_lower for word in self.LOCAL_SERVICE_KEYWORDS):
             return {
                 "agent": "local_services",
                 "params": {"action": "handle_service"},
