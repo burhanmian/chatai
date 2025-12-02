@@ -9,7 +9,7 @@ import uuid
 class AudioProcessor:
     """Process audio files for WhatsApp"""
     
-    def __init__(self, cache_dir: str = "/app/audio_cache"):
+    def __init__(self, cache_dir: str = "/tmp/audio_cache"):
         self.cache_dir = Path(cache_dir)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
     

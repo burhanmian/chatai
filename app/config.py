@@ -6,22 +6,22 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables"""
     
     # OpenAI
-    openai_api_key: str
+    openai_api_key: str = "test_key"
     
     # ElevenLabs
-    elevenlabs_api_key: str
-    elevenlabs_voice_id: str
+    elevenlabs_api_key: str = "test_key"
+    elevenlabs_voice_id: str = "test_voice"
     
     # Twilio
-    twilio_account_sid: str
-    twilio_auth_token: str
-    twilio_whatsapp_number: str
+    twilio_account_sid: str = "test_sid"
+    twilio_auth_token: str = "test_token"
+    twilio_whatsapp_number: str = "whatsapp:+14155238886"
     
     # Database
-    database_url: str
+    database_url: str = "sqlite+aiosqlite:///:memory:"
     
     # Redis
-    redis_url: str
+    redis_url: str = "redis://localhost:6379"
     
     # JazzCash
     jazzcash_merchant_id: Optional[str] = None
@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     # Application
     debug: bool = False
     log_level: str = "INFO"
-    webhook_base_url: str
+    webhook_base_url: str = "http://localhost:8000"
     
     class Config:
         env_file = ".env"
